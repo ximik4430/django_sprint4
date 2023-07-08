@@ -55,10 +55,10 @@ urlpatterns = [
         'profile/<str:name>/',
         views.info_profile,
         name='profile'
-     ),
+    ),
     path(
         'edit_profile/<slug:name>',
         views.edit_profile,
         name='edit_profile'
-     ),
+    ),
 ]
