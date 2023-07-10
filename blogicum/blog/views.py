@@ -40,10 +40,11 @@ def get_paginated_posts(posts, page_number):
     paginator = Paginator(posts, settings.POSTS_PAGE)
     try:
         page_obj = paginator.get_page(page_number)
-    except Exception as e:
+    except Exception as e: # pylint: disable=unused-variable
         # Обработка исключения, если номер страницы некорректный
         page_obj = paginator.get_page(1)
     return page_obj
+
 
 def info_profile(request, name):
     '''Информация о профиле пользователя.'''
