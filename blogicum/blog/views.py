@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -35,22 +36,27 @@ def edit_profile(request, name):
     return render(request, 'blog/user.html', context)
 
 
+def get_paginated_posts(posts, page_number):
+    paginator = Paginator(posts, settings.POSTS_PAGE)
+    try:
+        page_obj = paginator.get_page(page_number)
+    except Exception as e:
+        # Обработка исключения, если номер страницы некорректный
+        page_obj = paginator.get_page(1)
+    return page_obj
+
 def info_profile(request, name):
     '''Информация о профиле пользователя.'''
-    templates = 'blog/profile.html'
-    user = get_object_or_404(
-        User,
-        username=name,
-    )
-    profile_post = user.posts.all()
-    paginator = Paginator(profile_post, 10)
+    template = 'blog/profile.html'
+    user = get_object_or_404(User, username=name)
+    profile_posts = user.posts.all()
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = get_paginated_posts(profile_posts, page_number)
     context = {
         'profile': user,
         'page_obj': page_obj,
     }
-    return render(request, templates, context)
+    return render(request, template, context)
 
 
 class PostListView(ListView):

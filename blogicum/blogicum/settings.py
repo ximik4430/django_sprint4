@@ -146,3 +146,7 @@ MEDIA_URL = 'media/'
 LOGOUT_REDIRECT_URL = '/auth/login/'
 
 LOGIN_URL = '/auth/login/'
+
+POSTS_PAGE = 10
+
+OSS_INT = 30  # возвращает первые 30 символов,назвал просто так

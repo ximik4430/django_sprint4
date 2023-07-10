@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 
-from blog.constants import OSS_INT
+from django.conf import settings
 
 User = get_user_model()
 
@@ -40,7 +40,7 @@ class Category(PublishedModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title[:OSS_INT]
+        return self.title[:settings.OSS_INT]
 
 
 class Location(PublishedModel):
@@ -51,7 +51,7 @@ class Location(PublishedModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name[:OSS_INT]
+        return self.name[:settings.OSS_INT]
 
 
 class Post(PublishedModel):
@@ -92,7 +92,7 @@ class Post(PublishedModel):
         default_related_name = 'posts'
 
     def __str__(self):
-        return self.title[:OSS_INT]
+        return self.title[:settings.OSS_INT]
 
 
 class Comment(models.Model):
@@ -116,4 +116,4 @@ class Comment(models.Model):
         ordering = ('created_at',)
 
     def __str__(self):
-        return self.text[:OSS_INT]
+        return self.text[:settings.OSS_INT]
