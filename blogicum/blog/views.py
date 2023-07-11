@@ -39,7 +39,6 @@ def edit_profile(request, name):
 def get_paginated_posts(posts, page_number):
     paginator = Paginator(posts, settings.POSTS_PAGE)
     page_obj = paginator.get_page(page_number)
-    page_obj = paginator.get_page(1)
     return page_obj
 
 
@@ -61,7 +60,7 @@ class PostListView(ListView):
     template_name = 'blog/index.html'
     model = Post
     ordering = '-pub_date'
-    paginate_by = 10
+    paginate_by = settings.POSTS_PAGE
 
     def get_queryset(self):
         return Post.objects.filter(
@@ -84,7 +83,7 @@ def category_posts(request, category_slug):
         pub_date__lte=current_time,
         is_published=True,
     ).select_related('category')
-    paginator = Paginator(post_list, 10)
+    paginator = Paginator(post_list, settings.POSTS_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
