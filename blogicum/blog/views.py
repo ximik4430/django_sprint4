@@ -71,7 +71,7 @@ class PostListView(ListView):
 
 
 def category_posts(request, category_slug):
-    '''Отображение по котегории постов'''
+    '''Отображение по категории постов'''
     templates = 'blog/category.html'
     current_time = timezone.now()
     category = get_object_or_404(
@@ -86,8 +86,10 @@ def category_posts(request, category_slug):
     paginator = Paginator(post_list, settings.POSTS_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    posts = page_obj.object_list
     context = {
         'category': category,
+        'posts':posts,
         'page_obj': page_obj
     }
     return render(request, templates, context)
