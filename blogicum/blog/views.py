@@ -89,7 +89,7 @@ def category_posts(request, category_slug):
     posts = page_obj.object_list
     context = {
         'category': category,
-        'posts':posts,
+        'posts': posts,
         'page_obj': page_obj
     }
     return render(request, templates, context)
